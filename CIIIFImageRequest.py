@@ -51,7 +51,7 @@ class CIIIImageRequest:
             if size.startswith("!"):
                 raise NotImplementedError() # TODO: Impl ! special case
             
-            if size.startwith("pct:"):
+            if size.startswith("pct:"):
                 ratio = int(size[4:])
                 if not use_source_region:
                     self.canon_size = [self.canon_region[2] * ratio, self.canon_region[3] * ratio]

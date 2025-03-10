@@ -1,9 +1,8 @@
 from flask import Flask, render_template
 from PIL import Image
 from base64 import b64encode
-from region_handler import transform_region
-from size_handler import transform_size
 from CIIIFImageRequest import CIIIImageRequest
+from CImageTransformer import CImageTransformer
 import os
 import io
 import json
@@ -33,20 +32,19 @@ def render_image(id, region, size, rotation, quality, format):
     # Create ImageRequest obj with info.json
     # ImageRequest will convert URI into its standardized form.
     image_info_file_path = os.path.join(app.config['CATS_FOLDER'], f'{id}', 'info.json')
-    
+    image_file_path = os.path.join(app.config['CATS_FOLDER'], f'{id}', f'{id}.jpg')
     with open(image_info_file_path, 'r') as image_info_file:
         image_info = json.load(image_info_file)
     
     image_req = CIIIImageRequest(id, image_info, region, size, rotation, quality, format)
+    source_image = Image.open(image_file_path)
 
+    image_transformer = CImageTransformer()
+    final_image = image_transformer.run(source_image, image_req)
+    
     img_io = io.BytesIO()
+    final_image.save(img_io, format='png')
+    img_io.seek(0)
     
-    # Region Transform
-    # result_image = transform_region(full_filepath, region)
-    
-    # Size Transform
-    # root_img = transform_size(result_image, size)
-    # root_img.save(img_io, format='png')
-    # img_io.seek(0)
-    # dataurl = 'data:image/png;base64,' + b64encode(img_io.getvalue()).decode('ascii')
-    # return render_template("image.html", image_data = dataurl)
+    dataurl = 'data:image/png;base64,' + b64encode(img_io.getvalue()).decode('ascii')
+    return render_template("image.html", image_data = dataurl)
