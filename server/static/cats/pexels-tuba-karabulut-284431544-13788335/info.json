@@ -1,0 +1,12 @@
+{
+    "@context": "http://iiif.io/api/image/3/context.json",
+    "id": "pexels-tuba-karabulut-284431544-13788335",
+    "type": "ImageService3",
+    "protocol": "http://iiif.io/api/image",
+    "profile": "level0",
+    "width": "6000",
+    "height": "4000",
+    "maxWidth": "6000",
+    "maxHeight": "4000",
+    "maxArea": "24000000"
+}
