@@ -1,0 +1,12 @@
+{
+    "@context": "http://iiif.io/api/image/3/context.json",
+    "id": "pexels-feyzayildirimphoto-10520684",
+    "type": "ImageService3",
+    "protocol": "http://iiif.io/api/image",
+    "profile": "level0",
+    "width": "4000",
+    "height": "6000",
+    "maxWidth": "4000",
+    "maxHeight": "6000",
+    "maxArea": "24000000"
+}
