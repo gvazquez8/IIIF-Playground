@@ -4,12 +4,24 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:PlaygroundClient"
-    xmlns:converters="using:PlaygroundClient.Converters"
     xmlns:xaml="using:PlaygroundClient.Xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
-    
-    
-    <xaml:Chrome />
+    mc:Ignorable="d"
+    Title="IIIF Playground Client">
+
+    <Grid RowDefinitions="Auto, *" ColumnDefinitions="*,*">
+        <MenuBar Grid.Row="0" Grid.Column="0">
+            <MenuBarItem Title="Connection">
+                <MenuFlyoutItem Text="Connect..." Click="OnConnectMenuFlyoutItemClick" />
+                <MenuFlyoutItem Text="Disconnect" Click="OnDisconnectMenuFlyoutItemClick" />
+            </MenuBarItem>
+            <MenuBarItem Title="About"/>
+        </MenuBar>
+        <TextBlock Grid.Row="0" Grid.Column="1"
+                   Margin="0,0,10,0"
+                   HorizontalAlignment="Right" VerticalAlignment="Center"
+                   Text="Not Connected." Style="{StaticResource BaseTextBlockStyle}" />
+        <xaml:Chrome Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+    </Grid>
 </Window>
