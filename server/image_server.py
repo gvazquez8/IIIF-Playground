@@ -51,3 +51,9 @@ def render_image(id, region, size, rotation, quality, format):
 @app.route("/hello")
 def hello_test():
     return "hello from server"
+
+
+@app.route("/catalogue")
+def image_catalogue():
+    static_cats_files = os.listdir(app.config['CATS_FOLDER'])
+    return {"ImageIds" : static_cats_files}
