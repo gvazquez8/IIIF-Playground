@@ -44,8 +44,7 @@ public partial class ImageUriViewModel : ObservableObject
     [ObservableProperty, NotifyPropertyChangedFor("ImageUri")]
     private string _format;
 
-    [ObservableProperty]
-    private string _imageUri;
+    public string ImageUri => $"https://example.com/iiif/{(RegionAsPercent ? "pct:" : "")}{RegionX},{RegionY},{RegionWidth},{RegionHeight}/{SizeWidth},{SizeHeight}/{Rotation}{(Mirror ? "!" : "")}/{Quality}.{Format}";
 
     public ImageUriViewModel()
     {
@@ -60,10 +59,5 @@ public partial class ImageUriViewModel : ObservableObject
         Mirror = false;
         Quality = "default";
         Format = "jpg";
-    }
-    public string Image()
-    {
-        // Construct the IIIF image URI based on the properties
-        return $"https://example.com/iiif/{(RegionAsPercent ? "pct:" : "")}{RegionX},{RegionY},{RegionWidth},{RegionHeight}/{SizeWidth},{SizeHeight}/{Rotation}{(Mirror ? "!" : "")}/{Quality}.{Format}";
     }
 }

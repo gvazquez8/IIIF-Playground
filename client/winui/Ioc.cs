@@ -31,10 +31,10 @@ class Ioc
 
         _serviceCollection = new ServiceCollection();
         _serviceCollection.AddSingleton<ILoggingService, DebugLogger>();
-        _serviceCollection.AddSingleton<IImageService, AshIIIFImageAPIEndpoint>();
+        _serviceCollection.AddSingleton<IImageService, ImageAPIEndpoint>();
         _serviceCollection.AddHttpClient();
 
-        _serviceCollection.AddSingleton<MainWindowViewModel>();
+        _serviceCollection.AddSingleton<ChromeViewModel>();
         _serviceProvider = _serviceCollection.BuildServiceProvider();
 
         _initialized = true;

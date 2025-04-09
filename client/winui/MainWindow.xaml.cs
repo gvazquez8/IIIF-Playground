@@ -19,28 +19,8 @@ namespace PlaygroundClient;
 
 public sealed partial class MainWindow : Window
 {
-    private MainWindowViewModel _viewModel;
     public MainWindow()
     {
         InitializeComponent();
-        _viewModel = Ioc.Instance.GetService<MainWindowViewModel>();
     }
-
-    private BitmapImage? ConvertToBitmap(string? base64String)
-    {
-        if (string.IsNullOrWhiteSpace(base64String))
-        {
-            return null;
-        }
-
-        byte[] bytes = Convert.FromBase64String(base64String);
-        BitmapImage image = new();
-        using (MemoryStream stream = new(bytes))
-        {
-            image.SetSource(stream.AsRandomAccessStream());
-        }
-        return image;
-    }
-
-
 }
