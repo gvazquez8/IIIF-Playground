@@ -78,6 +78,7 @@
         <Grid Grid.Column="1" Grid.Row="1" 
           CornerRadius="30" Background="{ThemeResource LayerFillColorDefaultBrush}">
             <Image x:Name="CurrentImage" Source="{x:Bind ConvertToBitmap(_viewModel.ImageBase64), Mode=OneWay}"/>
+            <local:OverlappingContentDialog />
         </Grid>
         <local:EditRegionParameterContentDialog x:Name="EditRegionParameterContentDialog"/>
     </Grid>

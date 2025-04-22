@@ -47,8 +47,6 @@ public sealed partial class Chrome : UserControl
 
     private async void EditRegionButton_Click(object sender, RoutedEventArgs e)
     {
-        EditRegionParameterContentDialog.XamlRoot = this.XamlRoot;
-        await EditRegionParameterContentDialog.ShowAsync();
     }
 
     private void EditSizeButton_Click(object sender, RoutedEventArgs e)
