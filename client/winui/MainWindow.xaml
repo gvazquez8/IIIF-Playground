@@ -10,7 +10,7 @@
     mc:Ignorable="d"
     Title="IIIF Playground Client">
 
-    <Grid RowDefinitions="Auto, *" ColumnDefinitions="*,*">
+    <Grid x:Name="RootGrid" RowDefinitions="Auto, *" ColumnDefinitions="*,*">
         <MenuBar Grid.Row="0" Grid.Column="0">
             <MenuBarItem Title="Connection">
                 <MenuFlyoutItem Text="Connect..." Click="OnConnectMenuFlyoutItemClick" />
@@ -23,5 +23,6 @@
                    HorizontalAlignment="Right" VerticalAlignment="Center"
                    Text="Not Connected." Style="{StaticResource BaseTextBlockStyle}" />
         <xaml:Chrome Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <xaml:AddConnectionContentDialog x:Name="AddConnectionContentDialog"/>
     </Grid>
 </Window>

@@ -14,7 +14,7 @@ public partial class ChromeViewModel : ObservableObject
     private ImageUriViewModel _imageUriViewModel;
 
     [ObservableProperty]
-    private string _imageBase64;
+    private string? _imageBase64;
 
     private readonly IImageService _imageService;
     private readonly ILoggingService _logging;
@@ -29,7 +29,15 @@ public partial class ChromeViewModel : ObservableObject
 
     private async void GetImage()
     {
-        //ImageCatalogue catalogue = await _imageService.GetImageCatalogueAsync();
-        //ImageBase64 = await _imageService.GetImageAsync(catalogue.ImageIds[0]);
+        await _imageService.ConnectAsync("http://127.0.0.1:5000");
+        ImageCatalogue? catalogue = await _imageService.GetImageCatalogueAsync();
+
+        if (catalogue == null || catalogue.ImageIds == null || catalogue.ImageIds.Count == 0)
+        {
+            _logging.LogError("No images found in catalogue.");
+            return;
+        }
+
+        ImageBase64 = await _imageService.GetImageAsync(catalogue.ImageIds[0]);
     }
 }
