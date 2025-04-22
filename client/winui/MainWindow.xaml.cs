@@ -1,5 +1,8 @@
 using Microsoft.UI.Xaml;
-
+using Microsoft.UI.Xaml.Controls;
+using System;
+using System.Threading.Tasks;
+using PlaygroundClient.Xaml;
 namespace PlaygroundClient;
 
 public sealed partial class MainWindow : Window
@@ -9,11 +12,13 @@ public sealed partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private void OnConnectMenuFlyoutItemClick(object sender, RoutedEventArgs e)
+    private async void OnConnectMenuFlyoutItemClick(object sender, RoutedEventArgs e)
     {
+        AddConnectionContentDialog.XamlRoot = RootGrid.XamlRoot;
+        await AddConnectionContentDialog.ShowAsync();
     }
 
-    private void OnDisonnectMenuFlyoutItemClick(object sender, RoutedEventArgs e)
+    private void OnDisconnectMenuFlyoutItemClick(object sender, RoutedEventArgs e)
     {
 
     }

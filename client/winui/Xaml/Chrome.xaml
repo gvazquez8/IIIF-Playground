@@ -8,6 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="UriFieldMenuEditButtonStyle" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid ColumnDefinitions="2*,8*" RowDefinitions="*, 7*"
       ColumnSpacing="18" RowSpacing="21"
       Padding="20,30" Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
@@ -16,10 +23,12 @@
           CornerRadius="30" Padding="15"
           Background="{ThemeResource LayerFillColorDefaultBrush}"
           RowDefinitions="Auto, *">
-            <TextBlock Grid.Row="0" Text="IIIF Image Viewer" Style="{StaticResource TitleTextBlockStyle}"/>
+            <TextBlock Grid.Row="0" Text="IIIF Image Viewer" 
+                       Style="{StaticResource TitleTextBlockStyle}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto" Padding="5,0,8,0">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Region" Style="{StaticResource SubheaderTextBlockStyle}"
+                <StackPanel Orientation="Vertical" Spacing="8" Padding="8">
+                    <!--<TextBlock Text="Region" Style="{StaticResource SubheaderTextBlockStyle}"
                            HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <NumberBox Header="X" Value="{x:Bind _viewModel.ImageUriViewModel.RegionX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <NumberBox Header="Y" Value="{x:Bind _viewModel.ImageUriViewModel.RegionY, Mode=TwoWay}"/>
@@ -43,7 +52,14 @@
                         <ComboBoxItem Content="Color"/>
                         <ComboBoxItem Content="Gray"/>
                         <ComboBoxItem Content="Bitonal"/>
-                    </ComboBox>
+                    </ComboBox>-->
+
+                    <Button x:Name="EditRegionButton" Style="{StaticResource UriFieldMenuEditButtonStyle}"
+                            Content="Edit Region" Click="EditRegionButton_Click"/>
+                    <Button x:Name="EditSizeButton" Style="{StaticResource UriFieldMenuEditButtonStyle}"
+                            Content="Edit Size" Click="EditSizeButton_Click"/>
+                    <Button x:Name="EditRotationButton" Style="{StaticResource UriFieldMenuEditButtonStyle}"
+                            Content="Edit Rotation" Click="EditRotationButton_Click"/>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

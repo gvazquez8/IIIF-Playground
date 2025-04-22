@@ -31,7 +31,7 @@ class Ioc
 
         _serviceCollection = new ServiceCollection();
         _serviceCollection.AddSingleton<ILoggingService, DebugLogger>();
-        _serviceCollection.AddSingleton<IImageService, ImageAPIEndpoint>();
+        _serviceCollection.AddSingleton<IImageService, LocalHostImageService>();
         _serviceCollection.AddHttpClient();
 
         _serviceCollection.AddSingleton<ChromeViewModel>();

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentDialog
+    x:Class="PlaygroundClient.Xaml.AddConnectionContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PlaygroundClient.Xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Opened="AddConnectionContentDialog_Opened"
+    Closing="AddConnectingContentDialog_Closing"
+    DefaultButton="Close">
+    <ContentDialog.Resources>
+        <Style TargetType="local:AddConnectionContentDialog"
+               BasedOn="{StaticResource DefaultContentDialogStyle}"/>
+    </ContentDialog.Resources>
+
+    <Grid RowDefinitions="*, Auto">
+        <TextBox Grid.Row="0"
+                 x:Name="ServerUrlTextBox"
+                 Header="Image Server Url:" 
+                 PlaceholderText="Enter a url for an IIIF Image Server."/>
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Button x:Name="SubmitButton"
+                    Click="SubmitButton_Click"
+                    Content="Connect"
+                    Style="{x:Bind PrimaryButtonStyle}"/>
+            <Button x:Name="CancelButton" 
+                    Click="CancelButton_Click"
+                    Content="Cancel"
+                    Style="{x:Bind CloseButtonStyle}"/>
+        </StackPanel>
+                    
+    </Grid>
+</ContentDialog>

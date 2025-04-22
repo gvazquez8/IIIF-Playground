@@ -10,33 +10,62 @@ using PlaygroundClientPlaygroundClient.DataModels;
 using PlaygroundClientPlaygroundClient;
 
 namespace PlaygroundClient.Services.Image;
-public class ImageAPIEndpoint : IImageService
+public class LocalHostImageService : IImageService, IDisposable
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILoggingService _loggingService;
 
-    private const string localhost = "http://127.0.0.1:5000";
-    private Uri serverEndpoint;
+    private Uri? _serverEndpoint;
 
-    public ImageAPIEndpoint(
+    private bool _connected = false;
+
+    public LocalHostImageService(
         IHttpClientFactory httpClientFactory,
         ILoggingService loggingService)
     {
         _httpClientFactory = httpClientFactory;
         _loggingService = loggingService;
+    }
 
-        serverEndpoint = new Uri(localhost);
+    public async void Initialize(string address)
+    {
+        await ConnectAsync(address);
+    }
+
+    public async void Dispose()
+    {
+        await DisconnectAsync();
+    }
+
+    public Task<bool> ConnectAsync(string address)
+    {
+        _connected = true;
+        _serverEndpoint = new Uri(address);
+        return Task.FromResult(true);
+    }
+
+    public Task<bool> DisconnectAsync()
+    {
+        _connected = false;
+        _serverEndpoint = null;
+        return Task.FromResult(true);
     }
 
     private HttpClient GetServerHttpClient()
     {
         HttpClient client = _httpClientFactory.CreateClient();
-        client.BaseAddress = serverEndpoint;
+        client.BaseAddress = _serverEndpoint;
         return client;
     }
 
     public async Task<string> GetImageAsync(string id)
     {
+        if (!_connected)
+        {
+            _loggingService.LogError("Not connected to server.");
+            return string.Empty;
+        }
+
         try
         {
             string value = await GetServerHttpClient().GetStringAsync($"{id}/full/500,800/30/default.jpg");
@@ -51,6 +80,12 @@ public class ImageAPIEndpoint : IImageService
 
     public async Task<ImageCatalogue?> GetImageCatalogueAsync()
     {
+        if (!_connected)
+        {
+            _loggingService.LogError("Not connected to server.");
+            return null;
+        }
+
         try
         {
             HttpResponseMessage result = await GetServerHttpClient().GetAsync("catalogue");
