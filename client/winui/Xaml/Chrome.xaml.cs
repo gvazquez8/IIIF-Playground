@@ -44,18 +44,4 @@ public sealed partial class Chrome : UserControl
         }
         return image;
     }
-
-    private async void EditRegionButton_Click(object sender, RoutedEventArgs e)
-    {
-    }
-
-    private void EditSizeButton_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-    private void EditRotationButton_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
 }

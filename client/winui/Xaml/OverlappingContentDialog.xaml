@@ -13,6 +13,19 @@
                      Stroke="Black"
                      StrokeThickness="2"
                      RadiusX="10"
-                     RadiusY="10"/> 
+                     RadiusY="10"/>
+
+        <Grid Margin="20"
+              RowDefinitions="*, Auto">
+            <ContentControl Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                            ContentTemplate="{x:Bind ContentTemplate, Mode=OneWay}"/>
+
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Grid.Row="1">
+                <Button Content="Apply"/>
+                <Button Content="Close"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

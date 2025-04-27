@@ -33,6 +33,7 @@ public sealed partial class AddConnectionContentDialog
     {
         InitializeComponent();
         _loggingService = Ioc.Instance.GetService<ILoggingService>();
+        CancelButton.Focus(FocusState.Programmatic);
     }
 
     private void AddConnectionContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
@@ -53,12 +54,13 @@ public sealed partial class AddConnectionContentDialog
         }
     }
 
-    private async void SubmitButton_Click(object sender, RoutedEventArgs args)
+    private void SubmitButton_Click(object sender, RoutedEventArgs args)
     {
         if (!string.IsNullOrEmpty(ServerUrlTextBox.Text))
         {
             Result = ConnectionResult.ConnectionEstablished;
         }
+        
     }
 
     private void CancelButton_Click(object sender, RoutedEventArgs args)

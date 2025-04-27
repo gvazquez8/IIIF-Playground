@@ -8,8 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Opened="AddConnectionContentDialog_Opened"
-    Closing="AddConnectingContentDialog_Closing"
-    DefaultButton="Close">
+    Closing="AddConnectingContentDialog_Closing">
     <ContentDialog.Resources>
         <Style TargetType="local:AddConnectionContentDialog"
                BasedOn="{StaticResource DefaultContentDialogStyle}"/>
@@ -18,12 +17,14 @@
     <Grid RowDefinitions="*, Auto">
         <TextBox Grid.Row="0"
                  x:Name="ServerUrlTextBox"
-                 Header="Image Server Url:" 
+                 Height="64"
+                 Header="Image Server Url:"
                  PlaceholderText="Enter a url for an IIIF Image Server."/>
         <StackPanel Grid.Row="1"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Center"
+                    Spacing="5">
             <Button x:Name="SubmitButton"
                     Click="SubmitButton_Click"
                     Content="Connect"

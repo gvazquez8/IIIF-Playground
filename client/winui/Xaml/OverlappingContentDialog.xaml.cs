@@ -19,6 +19,7 @@ using Windows.Foundation.Collections;
 namespace PlaygroundClient.Xaml;
 public sealed partial class OverlappingContentDialog : UserControl
 {
+    public DataTemplate? ContentTemplate { get; set; }
     public OverlappingContentDialog()
     {
         this.InitializeComponent();
