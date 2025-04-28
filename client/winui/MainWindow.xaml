@@ -13,8 +13,8 @@
     <Grid x:Name="RootGrid" RowDefinitions="Auto, *" ColumnDefinitions="*,*">
         <MenuBar Grid.Row="0" Grid.Column="0">
             <MenuBarItem Title="Connection">
-                <MenuFlyoutItem Text="Connect..." Click="OnConnectMenuFlyoutItemClick" />
-                <MenuFlyoutItem Text="Disconnect" Click="OnDisconnectMenuFlyoutItemClick" />
+                <MenuFlyoutItem Text="Connect to local server" Click="OnConnectMenuFlyoutItemClick" />
+                <MenuFlyoutItem Text="Disconnect from local server" Click="OnDisconnectMenuFlyoutItemClick" />
             </MenuBarItem>
             <MenuBarItem Title="About"/>
         </MenuBar>

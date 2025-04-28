@@ -6,13 +6,16 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using PlaygroundClient.Services.Logging;
+using PlaygroundClient.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Globalization.NumberFormatting;
 
 namespace PlaygroundClient.Xaml;
 
@@ -27,13 +30,22 @@ public sealed partial class AddConnectionContentDialog
 {
     public ConnectionResult Result { get; private set; } = ConnectionResult.None;
 
-    private ILoggingService _loggingService;
+    private AddConnectionContentDialogViewModel _viewModel;
 
     public AddConnectionContentDialog()
     {
         InitializeComponent();
-        _loggingService = Ioc.Instance.GetService<ILoggingService>();
-        CancelButton.Focus(FocusState.Programmatic);
+        _viewModel = Ioc.Instance.GetService<AddConnectionContentDialogViewModel>();
+
+        SetPortNumberFormatter();
+    }
+
+    private void SetPortNumberFormatter()
+    {
+        LocalServerPortNumberBox.NumberFormatter = new DecimalFormatter
+        {
+            FractionDigits = 0,
+        };
     }
 
     private void AddConnectionContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
@@ -50,20 +62,19 @@ public sealed partial class AddConnectionContentDialog
         else if (Result == ConnectionResult.ConnectionEstablished)
         {
             // save results AKA make a connection and store it for other services? (maybe factory)
-            _loggingService.Log($"Connection to {ServerUrlTextBox.Text} established.");
+            //_loggingService.Log($"Connection to local server on 127.0.0.1:{LocalServerPortNumberBox.Value} established.");
         }
     }
 
-    private void SubmitButton_Click(object sender, RoutedEventArgs args)
+    private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
     {
-        if (!string.IsNullOrEmpty(ServerUrlTextBox.Text))
+        if (!string.IsNullOrEmpty(LocalServerPortNumberBox.Text))
         {
             Result = ConnectionResult.ConnectionEstablished;
         }
-        
     }
 
-    private void CancelButton_Click(object sender, RoutedEventArgs args)
+    private void ContentDialog_CloseButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
     {
         Result = ConnectionResult.Cancel;
     }

@@ -35,6 +35,7 @@ class Ioc
         _serviceCollection.AddHttpClient();
 
         _serviceCollection.AddSingleton<ChromeViewModel>();
+        _serviceCollection.AddSingleton<AddConnectionContentDialogViewModel>();
         _serviceProvider = _serviceCollection.BuildServiceProvider();
 
         _initialized = true;

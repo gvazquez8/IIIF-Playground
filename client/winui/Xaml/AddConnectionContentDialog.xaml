@@ -7,6 +7,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    PrimaryButtonText="Connect"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    CloseButtonText="Cancel"
+    CloseButtonClick="ContentDialog_CloseButtonClick"
+    DefaultButton="Close"
     Opened="AddConnectionContentDialog_Opened"
     Closing="AddConnectingContentDialog_Closing">
     <ContentDialog.Resources>
@@ -15,25 +20,11 @@
     </ContentDialog.Resources>
 
     <Grid RowDefinitions="*, Auto">
-        <TextBox Grid.Row="0"
-                 x:Name="ServerUrlTextBox"
-                 Height="64"
-                 Header="Image Server Url:"
-                 PlaceholderText="Enter a url for an IIIF Image Server."/>
-        <StackPanel Grid.Row="1"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Spacing="5">
-            <Button x:Name="SubmitButton"
-                    Click="SubmitButton_Click"
-                    Content="Connect"
-                    Style="{x:Bind PrimaryButtonStyle}"/>
-            <Button x:Name="CancelButton" 
-                    Click="CancelButton_Click"
-                    Content="Cancel"
-                    Style="{x:Bind CloseButtonStyle}"/>
-        </StackPanel>
-                    
+        <NumberBox Grid.Row="0"
+                   x:Name="LocalServerPortNumberBox"
+                   Height="64"
+                   Header="Image Server Port Number:"
+                   Value="{x:Bind _viewModel.PortNumber, Mode=TwoWay}"
+                   ValidationMode="InvalidInputOverwritten"/>
     </Grid>
 </ContentDialog>
