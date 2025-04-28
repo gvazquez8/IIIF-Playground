@@ -36,6 +36,7 @@ class Ioc
 
         _serviceCollection.AddSingleton<ChromeViewModel>();
         _serviceCollection.AddSingleton<AddConnectionContentDialogViewModel>();
+        _serviceCollection.AddSingleton<ImageUriViewModel>();
         _serviceProvider = _serviceCollection.BuildServiceProvider();
 
         _initialized = true;

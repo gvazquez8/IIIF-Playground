@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using PlaygroundClient.Services.Image;
 using PlaygroundClient.Services.Logging;
 using PlaygroundClient.ViewModels;
 using System;
@@ -31,21 +32,27 @@ public sealed partial class AddConnectionContentDialog
     public ConnectionResult Result { get; private set; } = ConnectionResult.None;
 
     private AddConnectionContentDialogViewModel _viewModel;
+    private IImageService _imageService;
 
     public AddConnectionContentDialog()
     {
         InitializeComponent();
-        _viewModel = Ioc.Instance.GetService<AddConnectionContentDialogViewModel>();
-
         SetPortNumberFormatter();
+        _viewModel = Ioc.Instance.GetService<AddConnectionContentDialogViewModel>();
+        _imageService = Ioc.Instance.GetService<IImageService>();
     }
 
     private void SetPortNumberFormatter()
     {
-        LocalServerPortNumberBox.NumberFormatter = new DecimalFormatter
-        {
-            FractionDigits = 0,
-        };
+        IncrementNumberRounder rounder = new();
+        rounder.RoundingAlgorithm = RoundingAlgorithm.RoundDown;
+        rounder.Increment = 1;
+
+        DecimalFormatter formatter = new();
+        formatter.FractionDigits = 0;
+        formatter.NumberRounder = rounder;
+
+        LocalServerPortNumberBox.NumberFormatter = formatter;
     }
 
     private void AddConnectionContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
@@ -53,25 +60,35 @@ public sealed partial class AddConnectionContentDialog
         Result = ConnectionResult.None;
     }
 
-    private void AddConnectingContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
+    private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
     {
-        if (Result == ConnectionResult.ConnectionFailed)
+        if (!_viewModel.ValidatePortRange(LocalServerPortNumberBox.Value))
         {
+            Result = ConnectionResult.ConnectionFailed;
             args.Cancel = true; // cancel closing
+            InvalidPortInfoBar.IsOpen = true;
+            InvalidPortInfoBar.Message = "Port number is invalid.";
+            return;
         }
-        else if (Result == ConnectionResult.ConnectionEstablished)
-        {
-            // save results AKA make a connection and store it for other services? (maybe factory)
-            //_loggingService.Log($"Connection to local server on 127.0.0.1:{LocalServerPortNumberBox.Value} established.");
-        }
-    }
 
-    private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-    {
-        if (!string.IsNullOrEmpty(LocalServerPortNumberBox.Text))
+        _viewModel.PortNumber = (int)LocalServerPortNumberBox.Value;
+
+        ContentDialogButtonClickDeferral deferral = args.GetDeferral();
+        bool connected = await _viewModel.ValidateServerRunningAsync();
+        if (!connected)
         {
+            Result = ConnectionResult.ConnectionFailed;
+            args.Cancel = true;
+            InvalidPortInfoBar.IsOpen = true;
+            InvalidPortInfoBar.Message = $"Connection to local server on port {_viewModel.PortNumber} failed.";
+        }
+        else
+        {
+            await _imageService.ConnectAsync(_viewModel.IpAddress);
+            InvalidPortInfoBar.IsOpen = false;
             Result = ConnectionResult.ConnectionEstablished;
         }
+        deferral.Complete();
     }
 
     private void ContentDialog_CloseButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

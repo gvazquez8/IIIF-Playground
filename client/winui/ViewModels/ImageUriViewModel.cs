@@ -44,7 +44,10 @@ public partial class ImageUriViewModel : ObservableObject
     [ObservableProperty, NotifyPropertyChangedFor("ImageUri")]
     private string _format;
 
-    public string ImageUri => $"https://example.com/iiif/{(RegionAsPercent ? "pct:" : "")}{RegionX},{RegionY},{RegionWidth},{RegionHeight}/{SizeWidth},{SizeHeight}/{Rotation}{(Mirror ? "!" : "")}/{Quality}.{Format}";
+    [ObservableProperty, NotifyPropertyChangedFor("ImageUri")]
+    private Uri? _hostUri;
+
+    public string ImageUri => $"{HostUri?.ToString() ?? "ERROR"}{(RegionAsPercent ? "pct:" : "")}{RegionX},{RegionY},{RegionWidth},{RegionHeight}/{SizeWidth},{SizeHeight}/{Rotation}{(Mirror ? "!" : "")}/{Quality}.{Format}";
 
     public ImageUriViewModel()
     {

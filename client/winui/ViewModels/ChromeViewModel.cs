@@ -22,14 +22,19 @@ public partial class ChromeViewModel : ObservableObject
     public ChromeViewModel(IImageService imageService, ILoggingService logging)
     {
         _imageService = imageService;
+        _imageService.OnConnectionEstablished += OnImageServiceConnected;
         _logging = logging;
         ImageUriViewModel = new ImageUriViewModel();
+    }
+
+    private void OnImageServiceConnected(object? sender, EventArgs e)
+    {
+        ImageUriViewModel.HostUri = _imageService.ServerEndpoint;
         GetImage();
     }
 
     private async void GetImage()
     {
-        await _imageService.ConnectAsync("http://127.0.0.1:5000");
         ImageCatalogue? catalogue = await _imageService.GetImageCatalogueAsync();
 
         if (catalogue == null || catalogue.ImageIds == null || catalogue.ImageIds.Count == 0)

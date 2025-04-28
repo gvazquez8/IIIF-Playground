@@ -11,20 +11,21 @@
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     CloseButtonText="Cancel"
     CloseButtonClick="ContentDialog_CloseButtonClick"
-    DefaultButton="Close"
-    Opened="AddConnectionContentDialog_Opened"
-    Closing="AddConnectingContentDialog_Closing">
+    Opened="AddConnectionContentDialog_Opened">
     <ContentDialog.Resources>
         <Style TargetType="local:AddConnectionContentDialog"
                BasedOn="{StaticResource DefaultContentDialogStyle}"/>
     </ContentDialog.Resources>
 
-    <Grid RowDefinitions="*, Auto">
-        <NumberBox Grid.Row="0"
+    <Grid RowDefinitions="Auto, *">
+        <InfoBar x:Name="InvalidPortInfoBar"
+                 Grid.Row="0"
+                 Severity="Error"
+                 IsOpen="False"/>
+        <NumberBox Grid.Row="1"
                    x:Name="LocalServerPortNumberBox"
                    Height="64"
                    Header="Image Server Port Number:"
-                   Value="{x:Bind _viewModel.PortNumber, Mode=TwoWay}"
                    ValidationMode="InvalidInputOverwritten"/>
     </Grid>
 </ContentDialog>

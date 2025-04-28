@@ -19,9 +19,10 @@
             <MenuBarItem Title="About"/>
         </MenuBar>
         <TextBlock Grid.Row="0" Grid.Column="1"
+                   x:Name="ConnectionStatusTextBlock"
                    Margin="0,0,10,0"
                    HorizontalAlignment="Right" VerticalAlignment="Center"
-                   Text="Not Connected." Style="{StaticResource BaseTextBlockStyle}" />
+                   Text="Disconnected" Style="{StaticResource BaseTextBlockStyle}" />
         <xaml:Chrome Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
         <xaml:AddConnectionContentDialog x:Name="AddConnectionContentDialog"/>
     </Grid>

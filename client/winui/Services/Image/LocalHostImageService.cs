@@ -14,7 +14,9 @@ public class LocalHostImageService : IImageService, IDisposable
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILoggingService _loggingService;
+    public event EventHandler? OnConnectionEstablished;
 
+    public Uri? ServerEndpoint => _serverEndpoint;
     private Uri? _serverEndpoint;
 
     private bool _connected = false;
@@ -27,11 +29,6 @@ public class LocalHostImageService : IImageService, IDisposable
         _loggingService = loggingService;
     }
 
-    public async void Initialize(string address)
-    {
-        await ConnectAsync(address);
-    }
-
     public async void Dispose()
     {
         await DisconnectAsync();
@@ -41,8 +38,11 @@ public class LocalHostImageService : IImageService, IDisposable
     {
         _connected = true;
         _serverEndpoint = new Uri(address);
+        _loggingService.Log($"Connected to server at {_serverEndpoint}");
+        OnConnectionEstablished?.Invoke(this, EventArgs.Empty);
         return Task.FromResult(true);
     }
+
 
     public Task<bool> DisconnectAsync()
     {
@@ -62,7 +62,7 @@ public class LocalHostImageService : IImageService, IDisposable
     {
         if (!_connected)
         {
-            _loggingService.LogError("Not connected to server.");
+            _loggingService.LogError("Not connected to a server.");
             return string.Empty;
         }
 
