@@ -10,6 +10,19 @@ using System.Threading.Tasks;
 namespace PlaygroundClient.ViewModels;
 public partial class ImageUriViewModel : ObservableObject
 {
+    public enum QualityType
+    {
+        Color,
+        Gray,
+        Bitonal,
+        Default
+    }
+
+    public IList<QualityType> QualityTypes => Enum.GetValues(typeof(QualityType)).Cast<QualityType>().ToList();
+
+    [ObservableProperty, NotifyPropertyChangedFor("ImageUri")]
+    private QualityType _quality = QualityType.Default;
+
     [ObservableProperty, NotifyPropertyChangedFor("ImageUri")]
     private int _regionX;
 
@@ -39,9 +52,6 @@ public partial class ImageUriViewModel : ObservableObject
 
     [ObservableProperty, NotifyPropertyChangedFor("ImageUri")]
     private bool _mirror;
-
-    [ObservableProperty, NotifyPropertyChangedFor("ImageUri")]
-    private string _quality;
     
     [ObservableProperty, NotifyPropertyChangedFor("ImageUri")]
     private string _format;
@@ -72,7 +82,7 @@ public partial class ImageUriViewModel : ObservableObject
                 RegionX, RegionY, RegionWidth, RegionHeight,    // 3,4,5,6
                 SizeWidth, SizeHeight,                          // 7,8
                 Mirror ? "!" : "", Rotation,                    // 9,10
-                Quality, Format);                               // 11,12
+                Quality.ToString().ToLower(), Format);                               // 11,12
 
 
             string imageUri = sb.ToString();
@@ -92,7 +102,7 @@ public partial class ImageUriViewModel : ObservableObject
         SizeHeight = 1000;
         Rotation = 0;
         Mirror = false;
-        Quality = "default";
+        Quality = QualityType.Default;
         Format = "jpg";
     }
 }

@@ -41,6 +41,13 @@
                     <CheckBox Content="Mirror" IsChecked="{x:Bind _viewModel.ImageUriViewModel.Mirror, Mode=TwoWay}"/>
                 </StackPanel>
             </Flyout>
+            <Flyout x:Name="QualityParametersFlyout">
+                <StackPanel Orientation="Vertical" Spacing="5">
+                    <ComboBox x:Name="QualityComboBox" 
+                              ItemsSource="{x:Bind _viewModel.ImageUriViewModel.QualityTypes}"
+                              SelectedItem="{x:Bind _viewModel.ImageUriViewModel.Quality, Mode=TwoWay}"/>
+                </StackPanel>
+            </Flyout>
         </Grid.Resources>
 
         <Grid Grid.Column="0" Grid.Row="0" 
@@ -53,11 +60,9 @@
 
         <Grid Grid.Column="1" Grid.Row="0" 
           CornerRadius="30" Background="{ThemeResource LayerFillColorDefaultBrush}">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="{x:Bind _viewModel.ImageUriViewModel.ImageUri, Mode=OneWay}"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                       Style="{StaticResource TitleTextBlockStyle}"/>
-            </StackPanel>
+            <TextBlock Text="{x:Bind _viewModel.ImageUriViewModel.ImageUri, Mode=OneWay}"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Style="{StaticResource TitleTextBlockStyle}"/>
         </Grid>
         
         <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" 
@@ -86,6 +91,11 @@
                             Style="{StaticResource UriFieldMenuEditButtonStyle}"
                             Flyout="{x:Bind RotationParameterFlyout}">
                         <ImageIcon Source="/Assets/RotationIcon.png" Width="50" Height="50"/>
+                    </Button>
+                    <Button x:Name="EditQualityButton" 
+                            Style="{StaticResource UriFieldMenuEditButtonStyle}"
+                            Flyout="{x:Bind QualityParametersFlyout}">
+                        <ImageIcon Source="/Assets/QualityIcon.png" Width="50" Height="50"/>
                     </Button>
                 </StackPanel>
             </ScrollViewer>

@@ -44,7 +44,7 @@ class CImageTransformer:
 
     def get_quality(self, image: Image.Image, image_request: CIIIImageRequest) -> Image.Image:
 
-        if image_request.canon_quality == "grayscale":
+        if image_request.canon_quality == "gray":
             return image.convert('L')
         elif image_request.canon_quality == "bitonal":
             return image.convert('1', dither=Image.Dither.NONE)
