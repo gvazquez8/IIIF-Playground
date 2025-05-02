@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using PlaygroundClient.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,9 +47,21 @@ public partial class ImageUriViewModel : ObservableObject
     private string _format;
 
     [ObservableProperty, NotifyPropertyChangedFor("ImageUri")]
+    private string _imageId;
+
+    [ObservableProperty, NotifyPropertyChangedFor("ImageUri")]
     private Uri? _hostUri;
 
-    public string ImageUri => $"{HostUri?.ToString() ?? "ERROR"}{(RegionAsPercent ? "pct:" : "")}{RegionX},{RegionY},{RegionWidth},{RegionHeight}/{SizeWidth},{SizeHeight}/{Rotation}{(Mirror ? "!" : "")}/{Quality}.{Format}";
+    public string ImageUri
+    {
+        get
+        {
+            string imageUri = $"{HostUri?.ToString() ?? "ERROR"}{(RegionAsPercent ? "pct:" : "")}{RegionX},{RegionY},{RegionWidth},{RegionHeight}/{SizeWidth},{SizeHeight}/{Rotation}{(Mirror ? "!" : "")}/{Quality}.{Format}";
+
+            WeakReferenceMessenger.Default.Send(new ImageUriParametersChangedMessage(imageUri));
+            return imageUri;
+        }
+    }
 
     public ImageUriViewModel()
     {

@@ -58,7 +58,7 @@ public class LocalHostImageService : IImageService, IDisposable
         return client;
     }
 
-    public async Task<string> GetImageAsync(string id)
+    public async Task<string> GetImageAsync(string imageUri)
     {
         if (!_connected)
         {
@@ -68,7 +68,7 @@ public class LocalHostImageService : IImageService, IDisposable
 
         try
         {
-            string value = await GetServerHttpClient().GetStringAsync($"{id}/full/500,800/30/default.jpg");
+            string value = await GetServerHttpClient().GetStringAsync(imageUri);
             return value;
         }
         catch (Exception ex)
