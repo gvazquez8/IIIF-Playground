@@ -20,9 +20,9 @@ public sealed partial class MainWindow : Window
         AddConnectionContentDialog.XamlRoot = RootGrid.XamlRoot;
         await AddConnectionContentDialog.ShowAsync();
         
-        if (AddConnectionContentDialog.Result == ConnectionResult.ConnectionEstablished)
+        if (AddConnectionContentDialog.Result == ConnectionResult.ConnectionEstablished && _imageService.ServerEndpoint != null)
         {
-            ConnectionStatusTextBlock.Text = "Connected";
+            ConnectionStatusTextBlock.Text = $"Connected to {_imageService.ServerEndpoint.Authority}";
         }
     }
 
