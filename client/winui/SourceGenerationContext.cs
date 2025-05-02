@@ -1,12 +1,14 @@
-﻿using PlaygroundClientPlaygroundClient.DataModels;
+﻿using PlaygroundClient.DataModels;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace PlaygroundClientPlaygroundClient;
+namespace PlaygroundClient;
 
 [JsonSourceGenerationOptions(
-    WriteIndented = true)]
+    WriteIndented = true,
+    NumberHandling = JsonNumberHandling.WriteAsString | JsonNumberHandling.AllowReadingFromString)]
 [JsonSerializable(typeof(ImageCatalogue))]
+[JsonSerializable(typeof(ImageInfoDataModel))]
 internal partial class SourceGenerationContext : JsonSerializerContext
 {
 }

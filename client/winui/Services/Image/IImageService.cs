@@ -1,4 +1,4 @@
-﻿using PlaygroundClientPlaygroundClient.DataModels;
+﻿using PlaygroundClient.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +16,8 @@ public interface IImageService
     public Task<bool> DisconnectAsync();
 
     public Task<string> GetImageAsync(string id);
+
+    public Task<ImageInfoDataModel?> GetImageInfoAsync(string imageId);
 
     public Task<ImageCatalogue?> GetImageCatalogueAsync();
 

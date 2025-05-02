@@ -52,12 +52,30 @@ public partial class ImageUriViewModel : ObservableObject
     [ObservableProperty, NotifyPropertyChangedFor("ImageUri")]
     private Uri? _hostUri;
 
+    [ObservableProperty, NotifyPropertyChangedFor("ImageUri")]
+    private bool _enabled = false;
+
     public string ImageUri
     {
         get
         {
-            string imageUri = $"{HostUri?.ToString() ?? "ERROR"}{(RegionAsPercent ? "pct:" : "")}{RegionX},{RegionY},{RegionWidth},{RegionHeight}/{SizeWidth},{SizeHeight}/{Rotation}{(Mirror ? "!" : "")}/{Quality}.{Format}";
+            if (!Enabled)
+            {
+                return "Not available";
+            }
 
+            StringBuilder sb = new();
+            sb.AppendFormat("{0}{1}/{2}{3},{4},{5},{6}/{7},{8}/{9}{10}/{11}.{12}",
+                HostUri!.ToString(),                            // 0
+                ImageId,                                        // 1
+                RegionAsPercent ? "pct:" : "",                  // 2
+                RegionX, RegionY, RegionWidth, RegionHeight,    // 3,4,5,6
+                SizeWidth, SizeHeight,                          // 7,8
+                Mirror ? "!" : "", Rotation,                    // 9,10
+                Quality, Format);                               // 11,12
+
+
+            string imageUri = sb.ToString();
             WeakReferenceMessenger.Default.Send(new ImageUriParametersChangedMessage(imageUri));
             return imageUri;
         }

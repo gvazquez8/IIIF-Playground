@@ -5,9 +5,12 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using PlaygroundClientPlaygroundClient.DataModels;
+using PlaygroundClient.DataModels;
 using CommunityToolkit.Mvvm.Messaging;
 using PlaygroundClient.Messages;
+using System.Linq;
+using System.Text.Json;
+using System.Collections.Generic;
 
 namespace PlaygroundClient.ViewModels;
 public partial class ChromeViewModel : ObservableRecipient, IRecipient<ImageUriParametersChangedMessage>
@@ -17,6 +20,9 @@ public partial class ChromeViewModel : ObservableRecipient, IRecipient<ImageUriP
 
     [ObservableProperty]
     private string? _imageBase64;
+
+    [ObservableProperty]
+    private ImageInfoDataModel? _imageInfo;
 
     [ObservableProperty]
     private ImageCatalogue? _imageCatalogue;
@@ -33,17 +39,29 @@ public partial class ChromeViewModel : ObservableRecipient, IRecipient<ImageUriP
         WeakReferenceMessenger.Default.Register<ImageUriParametersChangedMessage>(this);
     }
 
-    private void OnImageServiceConnected(object? sender, EventArgs e)
+    private async void OnImageServiceConnected(object? sender, EventArgs e)
     {
+        await InitializeImageCatalogueAsync();
         ImageUriViewModel.HostUri = _imageService.ServerEndpoint;
-        InitializeImageCatalogue();
+        ImageUriViewModel.ImageId = ImageCatalogue?.ImageIds?.First() ?? "ERROR";
+        ImageUriViewModel.Enabled = true;
     }
 
-    private async void InitializeImageCatalogue() => ImageCatalogue = await _imageService.GetImageCatalogueAsync();
+    private async Task InitializeImageCatalogueAsync() => ImageCatalogue = await _imageService.GetImageCatalogueAsync();
 
     private async void RequestImage(string imageUri)
     {
         ImageBase64 = await _imageService.GetImageAsync(imageUri);
+        ImageInfo = await _imageService.GetImageInfoAsync(ImageUriViewModel.ImageId);
+
+        if (ImageInfo == null)
+        {
+            _logging.LogError("ImageInfo is null");
+            return;
+        }
+
+        ImageUriViewModel.RegionWidth = ImageInfo.maxWidth;
+        ImageUriViewModel.RegionHeight = ImageInfo.maxHeight;
     }
 
     public void Receive(ImageUriParametersChangedMessage message) => RequestImage(message.Value);

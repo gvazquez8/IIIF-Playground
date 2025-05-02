@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Text.Json;
 using PlaygroundClient.Services.Logging;
-using PlaygroundClientPlaygroundClient.DataModels;
-using PlaygroundClientPlaygroundClient;
+using PlaygroundClient.DataModels;
 
 namespace PlaygroundClient.Services.Image;
 public class LocalHostImageService : IImageService, IDisposable
@@ -78,6 +77,35 @@ public class LocalHostImageService : IImageService, IDisposable
         }
     }
 
+    public async Task<ImageInfoDataModel?> GetImageInfoAsync(string imageId)
+    {
+        if (!_connected)
+        {
+            _loggingService.LogError("Not connected to server.");
+            return null;
+        }
+        try
+        {
+            HttpResponseMessage result = await GetServerHttpClient().GetAsync($"{imageId}/info.json");
+            if (result.IsSuccessStatusCode)
+            {
+                string info = await result.Content.ReadAsStringAsync();
+                ImageInfoDataModel? imageInfo = JsonSerializer.Deserialize(info, SourceGenerationContext.Default.ImageInfoDataModel);
+                return imageInfo;
+            }
+            else
+            {
+                _loggingService.LogError($"Failed to fetch image info: STATUS_CODE = {result.StatusCode}");
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            _loggingService.LogError(ex.Message);
+            return null;
+        }
+    }
+
     public async Task<ImageCatalogue?> GetImageCatalogueAsync()
     {
         if (!_connected)
@@ -97,7 +125,7 @@ public class LocalHostImageService : IImageService, IDisposable
             }
             else
             {
-                _loggingService.LogError($"Failed to fetch image catalogue: {result.ReasonPhrase}");
+                _loggingService.LogError($"Failed to fetch image catalogue: STATUS_CODE = {result.StatusCode}");
                 return null;
             }
         }

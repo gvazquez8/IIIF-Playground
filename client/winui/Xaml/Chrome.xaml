@@ -22,23 +22,23 @@
         <Grid.Resources>
             <Flyout x:Name="RegionParametersFlyout">
                 <StackPanel Orientation="Horizontal" Spacing="5">
-                    <NumberBox Header="X" Value="{x:Bind _viewModel.ImageUriViewModel.RegionX, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                    <NumberBox Header="Y" Value="{x:Bind _viewModel.ImageUriViewModel.RegionY, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                    <NumberBox Header="Width" Value="{x:Bind _viewModel.ImageUriViewModel.RegionWidth, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                    <NumberBox Header="Height" Value="{x:Bind _viewModel.ImageUriViewModel.RegionHeight, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                    <NumberBox Header="X" Value="{x:Bind _viewModel.ImageUriViewModel.RegionX, Mode=TwoWay}"/>
+                    <NumberBox Header="Y" Value="{x:Bind _viewModel.ImageUriViewModel.RegionY, Mode=TwoWay}"/>
+                    <NumberBox Header="Width" Value="{x:Bind _viewModel.ImageUriViewModel.RegionWidth, Mode=TwoWay}"/>
+                    <NumberBox Header="Height" Value="{x:Bind _viewModel.ImageUriViewModel.RegionHeight, Mode=TwoWay}"/>
                 </StackPanel>
             </Flyout>
             <Flyout x:Name="SizeParametersFlyout">
                 <StackPanel Orientation="Horizontal" Spacing="5">
-                    <NumberBox Header="Width" Value="{x:Bind _viewModel.ImageUriViewModel.SizeWidth, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                    <NumberBox Header="Height" Value="{x:Bind _viewModel.ImageUriViewModel.SizeHeight, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                    <NumberBox Header="Width" Value="{x:Bind _viewModel.ImageUriViewModel.SizeWidth, Mode=TwoWay}"/>
+                    <NumberBox Header="Height" Value="{x:Bind _viewModel.ImageUriViewModel.SizeHeight, Mode=TwoWay}"/>
                 </StackPanel>
             </Flyout>
             <Flyout x:Name="RotationParameterFlyout">
                 <StackPanel Orientation="Vertical" Spacing="5">
-                    <Slider Header="Rotation" Value="{x:Bind _viewModel.ImageUriViewModel.Rotation, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                    <Slider Header="Rotation" Value="{x:Bind _viewModel.ImageUriViewModel.Rotation, Mode=TwoWay}"
                             Minimum="0" Maximum="360" StepFrequency="1" TickFrequency="180" TickPlacement="Outside"/>
-                    <CheckBox Content="Mirror" IsChecked="{x:Bind _viewModel.ImageUriViewModel.Mirror, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                    <CheckBox Content="Mirror" IsChecked="{x:Bind _viewModel.ImageUriViewModel.Mirror, Mode=TwoWay}"/>
                 </StackPanel>
             </Flyout>
         </Grid.Resources>
@@ -57,18 +57,20 @@
                 <TextBlock Text="{x:Bind _viewModel.ImageUriViewModel.ImageUri, Mode=OneWay}"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        Style="{StaticResource TitleTextBlockStyle}"/>
-                <TextBlock Text="{x:Bind _viewModel.ImageUriViewModel.ImageUri, Mode=OneWay}"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                       Style="{StaticResource SubtitleTextBlockStyle}"/>
             </StackPanel>
         </Grid>
         
         <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" 
               RowDefinitions="*,Auto"
+              ColumnDefinitions="2*,8*"
               CornerRadius="30" Background="{ThemeResource LayerFillColorDefaultBrush}">
-            <Image x:Name="CurrentImage" Grid.Row="0"
+            <TextBlock x:Name="CurrentImageInfoTextBlock" Grid.Row="0" Grid.Column="0"
+                       Padding="10"
+                       Text="{x:Bind _viewModel.ImageInfo, Mode=OneWay}"/>
+            <Image x:Name="CurrentImage" Grid.Row="0" Grid.Column="1"
                    Source="{x:Bind ConvertToBitmap(_viewModel.ImageBase64), Mode=OneWay}"/>
-            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Auto" Padding="10">
+            <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                          HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Auto" Padding="10">
                 <StackPanel Orientation="Horizontal" Spacing="8" Padding="8" HorizontalAlignment="Center">
                     <Button x:Name="EditRegionButton" 
                             Style="{StaticResource UriFieldMenuEditButtonStyle}"

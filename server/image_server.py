@@ -26,6 +26,13 @@ def main_entry():
 def error(id):
     return "error", 404
 
+@app.route("/<id>/info.json")
+def get_info_json(id):
+    image_info_file_path = os.path.join(app.config['CATS_FOLDER'], f'{id}', 'info.json')
+    with open(image_info_file_path, 'r') as image_info_file:
+        image_info = json.load(image_info_file)
+        return image_info
+
 @app.route("/<id>/<region>/<size>/<rotation>/<quality>.<format>", methods=['GET'])
 def render_image(id, region, size, rotation, quality, format):
 
