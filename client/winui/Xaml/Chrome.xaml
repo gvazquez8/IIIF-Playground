@@ -68,6 +68,7 @@
         <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" 
               RowDefinitions="*,Auto"
               ColumnDefinitions="2*,8*"
+              Padding="15"
               CornerRadius="30" Background="{ThemeResource LayerFillColorDefaultBrush}">
             <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0">
                 <ComboBox x:Name="ImageCatalogueComboBox"
