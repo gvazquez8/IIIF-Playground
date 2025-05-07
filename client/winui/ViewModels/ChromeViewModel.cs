@@ -54,6 +54,7 @@ public partial class ChromeViewModel : ObservableRecipient, IRecipient<ImageUriP
 
     private async void RequestImage(string imageUri)
     {
+        bool firstImageLoaded = ImageBase64 == null;
         ImageBase64 = await _imageService.GetImageAsync(imageUri);
         ImageInfo = await _imageService.GetImageInfoAsync(ImageUriViewModel.ImageId);
 
@@ -63,8 +64,11 @@ public partial class ChromeViewModel : ObservableRecipient, IRecipient<ImageUriP
             return;
         }
 
-        ImageUriViewModel.RegionWidth = ImageInfo.maxWidth;
-        ImageUriViewModel.RegionHeight = ImageInfo.maxHeight;
+        if (firstImageLoaded)
+        {
+            ImageUriViewModel.RegionWidth = ImageInfo.maxWidth;
+            ImageUriViewModel.RegionHeight = ImageInfo.maxHeight;
+        }
     }
 
     public void Receive(ImageUriParametersChangedMessage message) => RequestImage(message.Value);
