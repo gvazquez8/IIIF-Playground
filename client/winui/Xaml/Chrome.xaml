@@ -69,9 +69,13 @@
               RowDefinitions="*,Auto"
               ColumnDefinitions="2*,8*"
               CornerRadius="30" Background="{ThemeResource LayerFillColorDefaultBrush}">
-            <TextBlock x:Name="CurrentImageInfoTextBlock" Grid.Row="0" Grid.Column="0"
-                       Padding="10"
-                       Text="{x:Bind _viewModel.ImageInfo, Mode=OneWay}"/>
+            <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+                <ComboBox x:Name="ImageCatalogueComboBox"
+                          ItemsSource="{x:Bind _viewModel.ImageCatalogue.ImageIds, Mode=OneWay}"
+                          SelectedItem="{x:Bind _viewModel.ImageUriViewModel.ImageId, Mode=TwoWay}"/>
+                <TextBlock x:Name="CurrentImageInfoTextBlock" Text="{x:Bind _viewModel.ImageInfo, Mode=OneWay}"/>
+            </StackPanel>
+            
             <Image x:Name="CurrentImage" Grid.Row="0" Grid.Column="1"
                    Source="{x:Bind ConvertToBitmap(_viewModel.ImageBase64), Mode=OneWay}"/>
             <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 

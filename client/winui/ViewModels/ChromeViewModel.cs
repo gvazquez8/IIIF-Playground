@@ -47,7 +47,10 @@ public partial class ChromeViewModel : ObservableRecipient, IRecipient<ImageUriP
         ImageUriViewModel.Enabled = true;
     }
 
-    private async Task InitializeImageCatalogueAsync() => ImageCatalogue = await _imageService.GetImageCatalogueAsync();
+    private async Task InitializeImageCatalogueAsync()
+    {
+        ImageCatalogue = await _imageService.GetImageCatalogueAsync();
+    }
 
     private async void RequestImage(string imageUri)
     {
