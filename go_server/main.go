@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io/fs"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -25,7 +26,28 @@ func GetInfoJson(c *gin.Context) {
 		return
 	}
 
-	c.Data((http.StatusOK), "application/json", data)
+	c.Data(http.StatusOK, "application/json", data)
+}
+
+func GetCatalogue(c *gin.Context) {
+	imageDirFS := os.DirFS(catImagesPath)
+
+	images, err := fs.ReadDir(imageDirFS, ".")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Unable to read directory",
+		})
+		return
+	}
+
+	catalogue := make([]string, 0, len(images))
+	for _, image := range images {
+		catalogue = append(catalogue, image.Name())
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"ImageIds": catalogue,
+	})
 }
 
 func main() {
@@ -37,5 +59,6 @@ func main() {
 	})
 
 	router.GET("/:id/info.json", GetInfoJson)
+	router.GET("/catalogue", GetCatalogue)
 	router.Run(":8080")
 }
