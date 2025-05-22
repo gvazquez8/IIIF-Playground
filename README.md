@@ -48,6 +48,10 @@ pip install -r requirements.txt
 ```
 Run the server:
 ```sh
-python image_server.py
+flask run --app image_server.py
 ```
 The server uses Flask and Pillow. Make sure the static/cats folder contains your image data.
+
+## About the Go Server
+
+The goal server is meant to be used as a learning tool for myself to learn Go. Currently, the Go server does not work with the client app. It is a work in progrees.
